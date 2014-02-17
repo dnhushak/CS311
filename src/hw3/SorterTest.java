@@ -2,8 +2,11 @@ package hw3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
 
 import org.junit.Test;
+import org.junit.Before;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
@@ -13,17 +16,41 @@ import static org.hamcrest.CoreMatchers.is;
  */
 
 public class SorterTest {
-	InsertionSort<Integer> sort = new InsertionSort<Integer>();
-	ArrayList<Integer> vals = new ArrayList<Integer>(Arrays.asList(80, 120, 80,
-			110, 60, 1, 100));
-	ArrayList<Integer> valsSorted = new ArrayList<Integer>(Arrays.asList(1, 60,
-			80, 80, 100, 110, 120));
-	ArrayList<Integer> valsSubSorted = new ArrayList<Integer>(Arrays.asList(80,
-			80, 110, 120, 60, 1, 100));
-	ArrayList<Integer> valsNeg = new ArrayList<Integer>(Arrays.asList(-80, 120,
-			80, 110, 60, 1, 100));
-	ArrayList<Integer> valsEmpty = new ArrayList<Integer>();
+	int largeSize = 10000;
+	ArrayList<Integer> vals;
+	ArrayList<Integer> valsSorted;
+	ArrayList<Integer> valsSubSorted;
+	ArrayList<Integer> valsNeg;
+	ArrayList<Integer> valsEmpty;
+	ArrayList<Integer> large;
+	ArrayList<Integer> largeSorted;
+	InsertionSort<Integer> Isort;
+	QuickSort<Integer> Qsort;
 
+	@Before
+	public void setup() {
+		Isort = new InsertionSort<Integer>();
+		Qsort = new QuickSort<Integer>();
+		vals = new ArrayList<Integer>(Arrays.asList(80, 120, 80, 110, 60, 1,
+				100));
+		valsSorted = new ArrayList<Integer>(Arrays.asList(1, 60, 80, 80, 100,
+				110, 120));
+		valsSubSorted = new ArrayList<Integer>(Arrays.asList(80, 80, 110, 120,
+				60, 1, 100));
+		valsNeg = new ArrayList<Integer>(Arrays.asList(-80, 120, 80, 110, 60,
+				1, 100));
+		valsEmpty = new ArrayList<Integer>();
+		large = new ArrayList<Integer>();
+		largeSorted = new ArrayList<Integer>();
+		Random rnd = new Random();
+		
+		int i;
+		for (i=0;i<largeSize;i++){
+			large.add(rnd.nextInt());
+		}
+		largeSorted.addAll(large);
+		Collections.sort(largeSorted);
+	}
 
 	// /////////////////////////////////////////////////////////
 	//
@@ -35,21 +62,62 @@ public class SorterTest {
 
 	// Test for actual sorting accuracy
 	@Test
-	public void analyzeSortTest() {
-		System.out.println(sort.analyzeSort(vals));
+	public void IanalyzeSortTest() {
+		System.out.println("Insertion sort for 7: " + Isort.analyzeSort(vals));
 		assertThat(vals, is(valsSorted));
+	}
+	
+	// Test for actual sorting accuracy
+	@Test
+	public void IanalyzeSortTestLarge() {
+		System.out.println("Insertion sort for " + largeSize + ": " + Isort.analyzeSort(large));
+		assertThat(large, is(largeSorted));
 	}
 
 	// Null test
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void insertionNullTest() {
-		sort.analyzeSort(null);
+		Isort.analyzeSort(null);
 	}
 
 	// Non-null but empty array test
 	@Test(expected = IllegalArgumentException.class)
 	public void insertionEmptyTest() {
-		sort.analyzeSort(valsEmpty);
+		Isort.analyzeSort(valsEmpty);
+	}
+
+	// /////////////////////////////////////////////////////////
+	//
+	//
+	// Quicksort Tests
+	//
+	//
+	// /////////////////////////////////////////////////////////
+
+	// Test for actual sorting accuracy
+	@Test
+	public void QanalyzeSortTest() {
+		System.out.println("Quick sort for 7: " + Qsort.analyzeSort(vals));
+		assertThat(vals, is(valsSorted));
+	}
+	
+	// Test for actual sorting accuracy
+	@Test
+	public void QanalyzeSortTestLarge() {
+		System.out.println("Quick sort for " + largeSize + ": " + Qsort.analyzeSort(large));
+		assertThat(large, is(largeSorted));
+	}
+
+	// Null test
+	@Test(expected = IllegalArgumentException.class)
+	public void QuickNullTest() {
+		Qsort.analyzeSort(null);
+	}
+
+	// Non-null but empty array test
+	@Test(expected = IllegalArgumentException.class)
+	public void QuickEmptyTest() {
+		Qsort.analyzeSort(valsEmpty);
 	}
 
 }

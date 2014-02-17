@@ -5,13 +5,8 @@ import java.util.ArrayList;
 public class InsertionSort<E extends Comparable<? super E>> implements
 		SortAnalysis<E> {
 
-	private void sort(ArrayList<E>  arr, int first, int last) {
-		if (arr == null) {
-			throw new IllegalArgumentException("Array is null");
-		}
-		if (arr.size() == 0) {
-			throw new IllegalArgumentException("Array has no contents");
-		}
+	public void sort(ArrayList<E>  arr, int first, int last) {
+
 
 		// Sort the array. Start at index one, and continually swap that element
 		// with the element on its left until it is not less than the element on
@@ -33,6 +28,12 @@ public class InsertionSort<E extends Comparable<? super E>> implements
 
 	@Override
 	public int analyzeSort(ArrayList<E> list) {
+		if (list == null) {
+			throw new IllegalArgumentException("Array is null");
+		}
+		if (list.size() == 0) {
+			throw new IllegalArgumentException("Array has no contents");
+		}
 		//Start time
 		long startTime = System.nanoTime();
 		//Sort the thing
