@@ -30,6 +30,8 @@ public class QuickSort<E extends Comparable<? super E>> implements
 			if (first >= last) {// already sorted
 				continue;// next iteration
 			}
+			// If the size of subarray is less than ps, insertion sort the
+			// subarray
 			if (last - first < ps) {
 				insertionSorter.sort(arr, first, last);
 				continue;

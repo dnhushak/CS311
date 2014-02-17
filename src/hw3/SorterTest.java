@@ -16,7 +16,7 @@ import static org.hamcrest.CoreMatchers.is;
  */
 
 public class SorterTest {
-	int largeSize = 10000;
+	int largeSize = 9929;
 	ArrayList<Integer> vals;
 	ArrayList<Integer> valsSorted;
 	ArrayList<Integer> valsSubSorted;
@@ -26,11 +26,13 @@ public class SorterTest {
 	ArrayList<Integer> largeSorted;
 	InsertionSort<Integer> Isort;
 	QuickSort<Integer> Qsort;
+	MergeSort<Integer> Msort;
 
 	@Before
 	public void setup() {
 		Isort = new InsertionSort<Integer>();
 		Qsort = new QuickSort<Integer>();
+		Msort = new MergeSort<Integer>();
 		vals = new ArrayList<Integer>(Arrays.asList(80, 120, 80, 110, 60, 1,
 				100));
 		valsSorted = new ArrayList<Integer>(Arrays.asList(1, 60, 80, 80, 100,
@@ -43,9 +45,9 @@ public class SorterTest {
 		large = new ArrayList<Integer>();
 		largeSorted = new ArrayList<Integer>();
 		Random rnd = new Random();
-		
+
 		int i;
-		for (i=0;i<largeSize;i++){
+		for (i = 0; i < largeSize; i++) {
 			large.add(rnd.nextInt());
 		}
 		largeSorted.addAll(large);
@@ -66,11 +68,12 @@ public class SorterTest {
 		System.out.println("Insertion sort for 7: " + Isort.analyzeSort(vals));
 		assertThat(vals, is(valsSorted));
 	}
-	
+
 	// Test for actual sorting accuracy
 	@Test
 	public void IanalyzeSortTestLarge() {
-		System.out.println("Insertion sort for " + largeSize + ": " + Isort.analyzeSort(large));
+		System.out.println("Insertion sort for " + largeSize + ": "
+				+ Isort.analyzeSort(large));
 		assertThat(large, is(largeSorted));
 	}
 
@@ -100,11 +103,12 @@ public class SorterTest {
 		System.out.println("Quick sort for 7: " + Qsort.analyzeSort(vals));
 		assertThat(vals, is(valsSorted));
 	}
-	
+
 	// Test for actual sorting accuracy
 	@Test
 	public void QanalyzeSortTestLarge() {
-		System.out.println("Quick sort for " + largeSize + ": " + Qsort.analyzeSort(large));
+		System.out.println("Quick sort for " + largeSize + ": "
+				+ Qsort.analyzeSort(large));
 		assertThat(large, is(largeSorted));
 	}
 
@@ -118,6 +122,41 @@ public class SorterTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void QuickEmptyTest() {
 		Qsort.analyzeSort(valsEmpty);
+	}
+
+	// /////////////////////////////////////////////////////////
+	//
+	//
+	// Merge Tests
+	//
+	//
+	// /////////////////////////////////////////////////////////
+
+	// Test for actual sorting accuracy
+	@Test
+	public void ManalyzeSortTest() {
+		System.out.println("Merge sort for 7: " + Msort.analyzeSort(vals));
+		assertThat(vals, is(valsSorted));
+	}
+
+	// Test for actual sorting accuracy
+	@Test
+	public void ManalyzeSortTestLarge() {
+		System.out.println("Merge sort for " + largeSize + ": "
+				+ Msort.analyzeSort(large));
+		assertThat(large, is(largeSorted));
+	}
+
+	// Null test
+	@Test(expected = IllegalArgumentException.class)
+	public void MergeNullTest() {
+		Msort.analyzeSort(null);
+	}
+
+	// Non-null but empty array test
+	@Test(expected = IllegalArgumentException.class)
+	public void MergeEmptyTest() {
+		Msort.analyzeSort(valsEmpty);
 	}
 
 }
